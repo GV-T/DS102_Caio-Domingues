@@ -1,6 +1,16 @@
 from datetime import datetime
+import json
 
 jogadores = []
+
+def lerJSON():
+    with open("voleicdt2.json", "r") as meuArquivo:
+        voleicdt2 = json.load(meuArquivo)
+        return voleicdt2
+    
+def salvarJSON(lista):
+    with open("voleicdt2.json", "w") as meuArquivo:
+        meuArquivo.write(lista)
 
 def ler_valor_nao_vazio(nome_variavel):
     valor_lido = input(f'Dê algum valor para {nome_variavel}: ')
@@ -12,11 +22,11 @@ def ler_valor_nao_vazio(nome_variavel):
 def ler_altura(valor_altura):
     while True:
         try:
-            valor_lido = float(input(f'Defina a {valor_altura} em metros: '))
-            if 0.83 <= valor_lido <= 2.51:
+            valor_lido = int(float(input(f'Defina a {valor_altura} em metros: ')))
+            if 1.40 <= valor_lido <= 2.20:
                 return valor_lido
             else:
-                print(f'Inválido! O valor para {valor_altura} deve estar entre 0.83 e 2.51 metros.')
+                print(f'Inválido! O valor para {valor_altura} deve estar entre 1.40 e 2.20 metros.')
         except ValueError:
             print(f'Inválido! Digite um número válido para {valor_altura}.')
 
@@ -59,7 +69,7 @@ def ler_pessoa():
             else:
                 break
         except ValueError:
-            print('Data inválida. Use o formato dd/mm/aaaa.')
+            print('Data inválida. Use o formato (dd/mm/aaaa).')
 
     
     try:
@@ -81,7 +91,7 @@ def ler_pessoa():
         'experiencia': experiencia,
     
     }
-    return jogador
+    return jogadores + jogador
 
 def imprimir_jogador(jogador):
     print("\n--- Dados do Jogador ---")
@@ -145,9 +155,13 @@ def remover_jogador():
             print("Jogador removio com sucesso.")
         else:
             print("Número inválido.")
+            
 
+salvarJSON(json.dumps(jogadores, indent=4))
+jogadores = lerJSON()
 def menu():
     while True:
+        salvarJSON(json.dumps(jogadores, indent=4))
         print("\n--- Menu ---")
         print("1. Incluir Jogador")
         print("2. Exibir Jogadores")
@@ -172,6 +186,10 @@ def menu():
 
 print("Seja bem-vindo às inscrições para o time de vôlei!")
 menu()
+
+
+
+
 
 
 
